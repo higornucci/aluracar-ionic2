@@ -4,6 +4,7 @@ import { Carro } from '../../domain/carro/carro';
 import { HomePage } from '../home/home';
 import { Agendamento } from '../../domain/agendamento/agendamento';
 import { AgendamentoService } from '../../domain/agendamento/agendamento-service';
+import { Vibration, DatePicker } from 'ionic-native';
 
 @Component({
   templateUrl: 'cadastro.html'
@@ -26,6 +27,7 @@ export class CadastroPage {
 
   agenda() {
     if (!this.agendamento.nome || !this.agendamento.endereco || !this.agendamento.email) {
+      Vibration.vibrate(500);
       this._alertCtrl.create({
         title: 'Preenchimento obrigatório',
         subTitle: 'Você deve preencher todas as informações',
@@ -38,12 +40,20 @@ export class CadastroPage {
       .then(confirmado => {
         confirmado ?
           this._alerta.setSubTitle('Agendamento realizado com sucesso!') :
-        this._alerta.present();
+          this._alerta.present();
       })
       .catch(err => {
-        this._alerta.setSubTitle('Não foi possível realizar o agendamento. Tente mais tarde');        
+        this._alerta.setSubTitle('Não foi possível realizar o agendamento. Tente mais tarde');
         this._alerta.setSubTitle(err.message);
         this._alerta.present();
       });
+  }
+
+  selecionaData() {
+    DatePicker.show({
+      date: new Date(),
+      mode: 'date'
+    })
+      .then(data => this.agendamento.data = data.toISOString());
   }
 }

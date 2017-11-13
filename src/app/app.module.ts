@@ -2,7 +2,6 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { HttpModule } from '@angular/http';
 import { EscolhaPage } from '../pages/escolha/escolha';
 import { CadastroPage } from '../pages/cadastro/cadastro';
 import 'rxjs/add/operator/map';
@@ -14,13 +13,15 @@ import { AgendamentosPage } from '../pages/agendamentos/agendamentos';
 import { LoginPage } from '../pages/login/login';
 import { UsuarioService } from '../domain/usuario/usuario-service';
 import { PerfilPage } from '../pages/perfil/perfil';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 
 function provideStorage() {
-  return new Storage(['indexeddb'], { 
+  return new Storage({
     name: 'aluracar',
     storeName: 'agendamentos'
-  });
-}
+  })
+};
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ function provideStorage() {
   ],
   imports: [
     HttpModule,
+    BrowserModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -49,7 +51,7 @@ function provideStorage() {
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AgendamentoService,
-    {provide: Storage, useFactory: provideStorage},
+    { provide: Storage, useFactory: provideStorage },
     AgendamentoDao,
     UsuarioService
   ]

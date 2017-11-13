@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Usuario } from './usuario';
 
+const KEY = 'avatarUrl';
+
 @Injectable()
 export class UsuarioService {
     private _usuarioLogado: Usuario;
@@ -22,5 +24,13 @@ export class UsuarioService {
 
     obtemUsuarioLogado() {
         return this._usuarioLogado;
+    }
+
+    guardaAvatar(url) {
+        localStorage.setItem(KEY, url);
+    }
+
+    obtemAvatar() {
+        return localStorage.getItem(KEY);
     }
 }
